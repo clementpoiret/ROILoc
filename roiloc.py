@@ -24,7 +24,7 @@ def main(args):
     )
     console.log(args)
 
-    path = Path(args.path)
+    path = Path(args.path).expanduser()
 
     # Getting roi from cerebra's csv
     roi = args.roi.title()
@@ -48,11 +48,11 @@ def main(args):
     for image_path in track(images):
         stem = image_path.stem.split(".")[0]
 
-        print(f"\nProcessing {str(image_path)}")
+        print(f"\n[bold blue]Processing {str(image_path)}")
 
         image = ants.image_read(str(image_path), pixeltype="float")
 
-        print("[bold green]Registering MNI to native space...")
+        print("Registering MNI to native space...")
 
         mask = None
         if args.mask:
@@ -60,6 +60,7 @@ def main(args):
             if mask_path:
                 mask = ants.image_read(str(mask_path[0]),
                                        pixeltype="unsigned int")
+                print(f"Using mask {str(mask_path[0])}")
             else:
                 print(
                     "[bold red]Warning: no mask found. Registering without mask..."
@@ -70,7 +71,7 @@ def main(args):
                                          type_of_transform=args.transform,
                                          mask=mask)
 
-        print("[bold green]Transforming and saving rois...")
+        print("Transforming and saving rois...")
         for i, side in enumerate(["right", "left"]):
             region = get_roi(
                 image=image,
@@ -87,6 +88,8 @@ def main(args):
             crop(
                 image_path, coords, image_path.parent /
                 f"{stem}_{args.roi}_{side}_{args.transform}_crop.nii.gz")
+
+    print("[bold green]Done! :)")
 
 
 if __name__ == "__main__":
