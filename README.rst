@@ -1,4 +1,6 @@
-# Welcome to ROILoc
+=================
+Welcome to ROILoc
+=================
 
 ROILoc is a registration-based ROI locator, based on the MNI152 09c Asym template, and the CerebrA Atlas. It'll center and crop T1 or T2 MRIs around a given ROI.
 
@@ -11,8 +13,8 @@ It requires the following packages:
 
 usage: roiloc.py [-h] -p PATH [-f FILENAME] -i INPUTPATTERN [-r ROI] -c CONTRAST [-b BET] [-t TRANSFORM] [-m MARGIN [MARGIN ...]]
 
-```
-arguments:
+arguments::
+
   -h, --help            show this help message and exit
   -p PATH, --path PATH  <Required> Input images path.
   -f FILENAME, --filename FILENAME
@@ -27,13 +29,16 @@ arguments:
                         Type of registration. See `https://antspy.readthedocs.io/en/latest/registration.html` for the complete list of options. Default: `AffineFast`
   -m MARGIN [MARGIN ...], --margin MARGIN [MARGIN ...]
                         Margin to add around the bounding box in voxels. It has to be a list of 3 integers, to control the margin in the three axis. Default: [8,8,2]
-```
+
 
 Example:
 
 ``python roiloc.py -p "~/Datasets/MemoDev/ManualSegmentation/" -f "hippocampus_crop" -i "**/tse.nii.gz" -r "hippocampus" -c "t2" -b True -t "AffineFast" -m 8 8 2``
 
-## Supported Registrations
+
+----------------------
+Supported Registration
+----------------------
 
 (Taken from ANTsPyX's doc)
 
@@ -59,7 +64,10 @@ Example:
 - ``TVMSQ``: time-varying diffeomorphism with mean square metric
 - ``TVMSQC``: time-varying diffeomorphism with mean square metric for very large deformation
 
-## Supported ROIs
+
+--------------
+Supported ROIs
+--------------
 
 - Caudal Anterior Cingulate,
 - Caudal Middle Frontal,
