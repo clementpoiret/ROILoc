@@ -8,7 +8,7 @@ ROILoc is a registration-based ROI locator, based on the MNI152 09c Sym template
   :width: 400
   :alt: Example: using ROILoc for Hippocampus
   
-If the results aren't correct, please consider performing BET/Skull Stripping on your subject's MRI before hand, then pass ``-b True`` afterward.
+If the results aren't correct, please consider performing BET/Skull Stripping on your subject's MRI beforehand, then pass ``-b True`` afterward.
 You can use FSL or ANTs to perform BET. I personnally also had great and fast results from `deepbrain <https://github.com/iitzco/deepbrain>`_ which depends on TensorFlow 1.X.
 
 It requires the following packages:
@@ -48,8 +48,8 @@ Therefore, to extract both left and right hippocampi (``Hippocampus``), I can ru
 ``python roiloc.py -p "~/Datasets/MemoDev/ManualSegmentation/" -i "**/tse.nii.gz" -r "hippocampus" -c "t2" -b True -t "AffineFast" -m 8 8 2 --mask "*brain_mask.nii``
 
 
-Supported Registration
-**********************
+Supported Registrations
+***********************
 
 (Taken from ANTsPyX's doc)
 
