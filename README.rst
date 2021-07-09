@@ -9,7 +9,7 @@ ROILoc is a registration-based ROI locator, based on the MNI152 09c Sym template
   :alt: Example: using ROILoc for Hippocampus
   
 If the results aren't correct, please consider performing BET/Skull Stripping on your subject's MRI before hand, then pass ``-b True`` afterward.
-You can use FSL or ANTs to perform BET. I personnally also had great and fast results from `deepbrain <https://github.com/iitzco/deepbrain/blob/master/requirements.txt>`_ which depends on TensorFlow 1.X.
+You can use FSL or ANTs to perform BET. I personnally also had great and fast results from `deepbrain <https://github.com/iitzco/deepbrain>`_ which depends on TensorFlow 1.X.
 
 It requires the following packages:
 
