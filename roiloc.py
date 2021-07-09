@@ -9,13 +9,21 @@ from pathlib import Path
 import ants
 import pandas as pd
 from rich import print
+from rich.console import Console
 from rich.progress import track
 
+from roiloc.locator import crop, get_coords
 from roiloc.template import get_mni, get_roi
-from roiloc.locator import get_coords, crop
+
+console = Console()
 
 
 def main(args):
+    print(
+        "For information purposes, you are currently running ROILoc with the following config:"
+    )
+    console.log(args)
+
     path = Path(args.path)
 
     # Getting roi from cerebra's csv
@@ -26,6 +34,12 @@ def main(args):
 
     # Loading mris, template and atlas
     images = list(path.glob(args.inputpattern))
+
+    if not images:
+        print(
+            "[bold red]Warning: no image found. Please double check your path and pattern."
+        )
+
     mni = get_mni(args.contrast, args.bet)
     atlas = ants.image_read(
         "./roiloc/MNI/cerebra/mni_icbm152_CerebrA_tal_nlin_sym_09c.nii",
@@ -34,14 +48,27 @@ def main(args):
     for image_path in track(images):
         stem = image_path.stem.split(".")[0]
 
-        print(f"Processing {str(image_path)}")
+        print(f"\nProcessing {str(image_path)}")
 
         image = ants.image_read(str(image_path), pixeltype="float")
 
         print("[bold green]Registering MNI to native space...")
+
+        mask = None
+        if args.mask:
+            mask_path = list(image_path.parent.glob(args.mask))
+            if mask_path:
+                mask = ants.image_read(str(mask_path[0]),
+                                       pixeltype="unsigned int")
+            else:
+                print(
+                    "[bold red]Warning: no mask found. Registering without mask..."
+                )
+
         registration = ants.registration(fixed=image,
                                          moving=mni,
-                                         type_of_transform=args.transform)
+                                         type_of_transform=args.transform,
+                                         mask=mask)
 
         print("[bold green]Transforming and saving rois...")
         for i, side in enumerate(["right", "left"]):
@@ -126,11 +153,19 @@ if __name__ == "__main__":
         required=False,
         default=[8, 8, 2])
 
+    parser.add_argument(
+        "--mask",
+        help=
+        "Pattern for brain tissue mask to improve registration (e.g.: `**/sub_*bet_mask.nii.gz`). If providing a BET mask, please also pass `-b True` to use a BET MNI template.",
+        required=False,
+        type=str,
+        default=None)
+
     args = parser.parse_args()
 
     print("""[bold green]Copyright (C) 2021  Clément POIRET[/bold green]
     This program comes with [bold magenta]ABSOLUTELY NO WARRANTY[/bold magenta]; for help, launch it with `-h`.
-    This is free software, and you are welcome to redistribute it under certain conditions."""
+    This is free software, and you are welcome to redistribute it under certain conditions.\n\n"""
          )
 
     main(args)

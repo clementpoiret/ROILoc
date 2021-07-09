@@ -15,7 +15,7 @@ It requires the following packages:
 - Pandas,
 - Rich.
 
-usage: roiloc.py [-h] -p PATH -i INPUTPATTERN [-r ROI] -c CONTRAST [-b BET] [-t TRANSFORM] [-m MARGIN [MARGIN ...]]
+usage: roiloc.py [-h] -p PATH -i INPUTPATTERN [-r ROI] -c CONTRAST [-b BET] [-t TRANSFORM] [-m MARGIN [MARGIN ...]] [--mask MASK]
 
 arguments::
 
@@ -31,11 +31,17 @@ arguments::
                         Type of registration. See `https://antspy.readthedocs.io/en/latest/registration.html` for the complete list of options. Default: `AffineFast`
   -m MARGIN [MARGIN ...], --margin MARGIN [MARGIN ...]
                         Margin to add around the bounding box in voxels. It has to be a list of 3 integers, to control the margin in the three axis. Default: [8,8,2]
+  --mask MASK           Pattern for brain tissue mask to improve registration (e.g.: `sub_*bet_mask.nii.gz`). If providing a BET mask, please also pass `-b True` to use a BET MNI template.
 
 
 Example:
+********
 
-``python roiloc.py -p "~/Datasets/MemoDev/ManualSegmentation/" -i "**/tse.nii.gz" -r "hippocampus" -c "t2" -b True -t "AffineFast" -m 8 8 2``
+Let's say I have a main database folder, containing one subfolder for each subject. In all those subjects folders, all of them have a t2w mri called ``tse.nii.gz`` and a brain mask call ``brain_mask.nii``.
+
+Therefore, to extract both left and right hippocampi (``Hippocampus``), I can run: 
+
+``python roiloc.py -p "~/Datasets/MemoDev/ManualSegmentation/" -i "**/tse.nii.gz" -r "hippocampus" -c "t2" -b True -t "AffineFast" -m 8 8 2 --mask "*brain_mask.nii``
 
 
 ----------------------
