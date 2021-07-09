@@ -26,16 +26,28 @@ arguments::
   -h, --help            show this help message and exit
   -p PATH, --path PATH  <Required> Input images path.
   -i INPUTPATTERN, --inputpattern INPUTPATTERN
-                        <Required> Pattern to find input images in input path (e.g.: `**/*t1*.nii.gz`).
-  -r ROI, --roi ROI     ROI included in CerebrA. See `roiloc/MNI/cerebra/CerebrA_LabelDetails.csv` for more details. Default: 'Hippocampus'.
+                        <Required> Pattern to find input images in input path
+                        (e.g.: `**/*t1*.nii.gz`).
+  -r ROI, --roi ROI     ROI included in CerebrA. See
+                        `roiloc/MNI/cerebra/CerebrA_LabelDetails.csv` for more
+                        details. Default: 'Hippocampus'.
   -c CONTRAST, --contrast CONTRAST
-                        <Required> Contrast of the input MRI. Can be `t1` or `t2`.
-  -b BET, --bet BET     Boolean to choose if we use the BET version of the MNI152 template.
+                        <Required> Contrast of the input MRI. Can be `t1` or
+                        `t2`.
+  -b BET, --bet BET     Boolean to choose if we use the BET version of the
+                        MNI152 template.
   -t TRANSFORM, --transform TRANSFORM
-                        Type of registration. See `https://antspy.readthedocs.io/en/latest/registration.html` for the complete list of options. Default: `AffineFast`
+                        Type of registration. See `https://antspy.readthedocs.
+                        io/en/latest/registration.html` for the complete list
+                        of options. Default: `AffineFast`
   -m MARGIN [MARGIN ...], --margin MARGIN [MARGIN ...]
-                        Margin to add around the bounding box in voxels. It has to be a list of 3 integers, to control the margin in the three axis. Default: [8,8,2]
-  --mask MASK           Pattern for brain tissue mask to improve registration (e.g.: `sub_*bet_mask.nii.gz`). If providing a BET mask, please also pass `-b True` to use a BET MNI template.
+                        Margin to add around the bounding box in voxels. It
+                        has to be a list of 3 integers, to control the margin
+                        in the three axis. Default: [8,8,2]
+  --mask MASK           Pattern for brain tissue mask to improve registration
+                        (e.g.: `**/sub_*bet_mask.nii.gz`). If providing a BET
+                        mask, please also pass `-b True` to use a BET MNI
+                        template.
 
 
 Example:
