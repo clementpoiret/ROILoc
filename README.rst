@@ -48,9 +48,8 @@ Therefore, to extract both left and right hippocampi (``Hippocampus``), I can ru
 ``python roiloc.py -p "~/Datasets/MemoDev/ManualSegmentation/" -i "**/tse.nii.gz" -r "hippocampus" -c "t2" -b True -t "AffineFast" -m 8 8 2 --mask "*brain_mask.nii``
 
 
-----------------------
 Supported Registration
-----------------------
+**********************
 
 (Taken from ANTsPyX's doc)
 
@@ -77,9 +76,8 @@ Supported Registration
 - ``TVMSQC``: time-varying diffeomorphism with mean square metric for very large deformation
 
 
---------------
 Supported ROIs
---------------
+**************
 
 - Caudal Anterior Cingulate,
 - Caudal Middle Frontal,
