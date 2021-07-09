@@ -12,14 +12,12 @@ It requires the following packages:
 - Pandas,
 - Rich.
 
-usage: roiloc.py [-h] -p PATH [-f FILENAME] -i INPUTPATTERN [-r ROI] -c CONTRAST [-b BET] [-t TRANSFORM] [-m MARGIN [MARGIN ...]]
+usage: roiloc.py [-h] -p PATH -i INPUTPATTERN [-r ROI] -c CONTRAST [-b BET] [-t TRANSFORM] [-m MARGIN [MARGIN ...]]
 
 arguments::
 
   -h, --help            show this help message and exit
   -p PATH, --path PATH  <Required> Input images path.
-  -f FILENAME, --filename FILENAME
-                        Filename of the output image. It will be: filename_[right|left].nii.gz. Default: 'hippocampus_crop'.
   -i INPUTPATTERN, --inputpattern INPUTPATTERN
                         <Required> Pattern to find input images in input path (e.g.: `**/*t1*.nii.gz`).
   -r ROI, --roi ROI     ROI included in CerebrA. See `roiloc/MNI/cerebra/CerebrA_LabelDetails.csv` for more details. Default: 'Hippocampus'.
@@ -34,7 +32,7 @@ arguments::
 
 Example:
 
-``python roiloc.py -p "~/Datasets/MemoDev/ManualSegmentation/" -f "hippocampus_crop" -i "**/tse.nii.gz" -r "hippocampus" -c "t2" -b True -t "AffineFast" -m 8 8 2``
+``python roiloc.py -p "~/Datasets/MemoDev/ManualSegmentation/" -i "**/tse.nii.gz" -r "hippocampus" -c "t2" -b True -t "AffineFast" -m 8 8 2``
 
 
 ----------------------

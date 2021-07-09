@@ -32,6 +32,8 @@ def main(args):
         pixeltype="unsigned int")
 
     for image_path in track(images):
+        stem = image_path.stem.split(".")[0]
+
         print(f"Processing {str(image_path)}")
 
         image = ants.image_read(str(image_path), pixeltype="float")
@@ -49,13 +51,15 @@ def main(args):
                 idx=int(roi_idx[i]),
                 transform=registration["fwdtransforms"],
                 output_dir=str(image_path.parent),
-                output_file=f"{side}_{args.filename}_{args.transform}.nii.gz",
+                output_file=
+                f"{stem}_{args.roi}_{side}_{args.transform}_mask.nii.gz",
                 save=True)
 
             coords = get_coords(region.numpy(), margin=args.margin)
 
-            crop(image_path, coords,
-                 image_path.parent / f"{args.filename}_{side}.nii.gz")
+            crop(
+                image_path, coords, image_path.parent /
+                f"{stem}_{args.roi}_{side}_{args.transform}_crop.nii.gz")
 
 
 if __name__ == "__main__":
@@ -69,15 +73,6 @@ if __name__ == "__main__":
                         help="<Required> Input images path.",
                         required=True,
                         type=str)
-
-    parser.add_argument(
-        "-f",
-        "--filename",
-        help=
-        "Filename of the output image. It will be: filename_[right|left].nii.gz. Default: 'hippocampus_crop'.",
-        required=False,
-        default="hippocampus_crop",
-        type=str)
 
     parser.add_argument(
         "-i",
