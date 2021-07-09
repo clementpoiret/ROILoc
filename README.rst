@@ -4,6 +4,9 @@ Welcome to ROILoc
 
 ROILoc is a registration-based ROI locator, based on the MNI152 09c Sym template, and the CerebrA Atlas. It'll center and crop T1 or T2 MRIs around a given ROI.
 
+If the results aren't correct, please consider performing BET/Skull Stripping on your subject's MRI before hand, then pass ``-b True`` afterward.
+You can use FSL or ANTs to perform BET. I personnally also had great and fast results from `deepbrain <https://github.com/iitzco/deepbrain/blob/master/requirements.txt>`_ which depends on TensorFlow 1.X.
+
 It requires the following packages:
 
 - ANTs (Can be a system installation or anaconda installation),
