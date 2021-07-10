@@ -1,4 +1,5 @@
 import ants
+import pandas as pd
 from ants.core.ants_image import ANTsImage
 
 SUPPORTED_CONTRASTS = ["t1", "t2"]
@@ -22,6 +23,12 @@ def get_mni(contrast: str, bet: bool) -> ANTsImage:
     return ants.image_read(
         f"roiloc/MNI/icbm152/mni_icbm152_{contrast}{betstr}_tal_nlin_sym_09c.nii",
         pixeltype="float")
+
+
+def get_roi_indices(roi: str) -> list:
+    cerebra = pd.read_csv("roiloc/MNI/cerebra/CerebrA_LabelDetails.csv",
+                          index_col="Label Name")
+    return [cerebra.loc[roi, "RH Label"], cerebra.loc[roi, "LH Labels"]]
 
 
 def get_roi(image: ANTsImage,

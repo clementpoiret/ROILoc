@@ -12,8 +12,9 @@ from rich import print
 from rich.console import Console
 from rich.progress import track
 
-from roiloc.locator import crop, get_coords
-from roiloc.template import get_mni, get_roi
+from roiloc.location import crop, get_coords
+from roiloc.registration import register
+from roiloc.template import get_mni, get_roi, get_roi_indices
 
 console = Console()
 
@@ -27,14 +28,10 @@ def main(args):
     path = Path(args.path).expanduser()
 
     # Getting roi from cerebra's csv
-    roi = args.roi.title()
-    cerebra = pd.read_csv("roiloc/MNI/cerebra/CerebrA_LabelDetails.csv",
-                          index_col="Label Name")
-    roi_idx = [cerebra.loc[roi, "RH Label"], cerebra.loc[roi, "LH Labels"]]
+    roi_idx = get_roi_indices(args.roi.title())
 
     # Loading mris, template and atlas
     images = list(path.glob(args.inputpattern))
-
     if not images:
         print(
             "[bold red]Warning: no image found. Please double check your path and pattern."
@@ -49,27 +46,14 @@ def main(args):
         stem = image_path.stem.split(".")[0]
 
         print(f"\n[bold blue]Processing {str(image_path)}")
-
         image = ants.image_read(str(image_path), pixeltype="float")
 
         print("Registering MNI to native space...")
-
-        mask = None
-        if args.mask:
-            mask_path = list(image_path.parent.glob(args.mask))
-            if mask_path:
-                mask = ants.image_read(str(mask_path[0]),
-                                       pixeltype="unsigned int")
-                print(f"Using mask {str(mask_path[0])}")
-            else:
-                print(
-                    "[bold red]Warning: no mask found. Registering without mask..."
-                )
-
-        registration = ants.registration(fixed=image,
-                                         moving=mni,
-                                         type_of_transform=args.transform,
-                                         mask=mask)
+        registration = register(image,
+                                mni,
+                                args.transform,
+                                path=image_path.parent,
+                                mask=args.mask)
 
         print("Transforming and saving rois...")
         for i, side in enumerate(["right", "left"]):
