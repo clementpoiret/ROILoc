@@ -13,8 +13,8 @@ from rich.console import Console
 from rich.progress import track
 
 from roiloc.location import crop, get_coords
-from roiloc.registration import register
-from roiloc.template import get_mni, get_roi, get_roi_indices
+from roiloc.registration import get_roi, register
+from roiloc.template import get_mni, get_roi_indices
 
 console = Console()
 
@@ -28,7 +28,8 @@ def main(args):
     path = Path(args.path).expanduser()
 
     # Getting roi from cerebra's csv
-    roi_idx = get_roi_indices(args.roi.title())
+    rois_idx = {roi: get_roi_indices(roi) for roi in args.roi}
+    # roi_idx = get_roi_indices(args.roi)
 
     # Loading mris, template and atlas
     images = list(path.glob(args.inputpattern))
@@ -55,23 +56,29 @@ def main(args):
                                 path=image_path.parent,
                                 mask=args.mask)
 
-        print("Transforming and saving rois...")
-        for i, side in enumerate(["right", "left"]):
-            region = get_roi(
-                image=image,
-                atlas=atlas,
-                idx=int(roi_idx[i]),
-                transform=registration["fwdtransforms"],
-                output_dir=str(image_path.parent),
-                output_file=
-                f"{stem}_{args.roi}_{side}_{args.transform}_mask.nii.gz",
-                save=True)
+        registered_atlas = ants.apply_transforms(
+            fixed=image,
+            moving=atlas,
+            transformlist=registration["fwdtransforms"],
+            interpolator="nearestNeighbor")
 
-            coords = get_coords(region.numpy(), margin=args.margin)
+        for roi in rois_idx:
+            print(f"Transforming and saving {roi}...")
 
-            crop(
-                image_path, coords, image_path.parent /
-                f"{stem}_{args.roi}_{side}_{args.transform}_crop.nii.gz")
+            for i, side in enumerate(["right", "left"]):
+                region = get_roi(
+                    registered_atlas=registered_atlas,
+                    idx=int(rois_idx[roi][i]),
+                    output_dir=str(image_path.parent),
+                    output_file=
+                    f"{stem}_{args.roi}_{side}_{args.transform}_mask.nii.gz",
+                    save=True)
+
+                coords = get_coords(region.numpy(), margin=args.margin)
+
+                crop(
+                    image_path, coords, image_path.parent /
+                    f"{stem}_{args.roi}_{side}_{args.transform}_crop.nii.gz")
 
     print("[bold green]Done! :)")
 
@@ -99,10 +106,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "-r",
         "--roi",
+        nargs='+',
         help=
         "ROI included in CerebrA. See `roiloc/MNI/cerebra/CerebrA_LabelDetails.csv` for more details. Default: 'Hippocampus'.",
         required=False,
-        default="Hippocampus",
+        default=["Hippocampus"],
         type=str)
 
     parser.add_argument(

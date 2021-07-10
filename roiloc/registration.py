@@ -3,6 +3,7 @@ from typing import Optional
 
 import ants
 from ants.core.ants_image import ANTsImage
+from rich import print
 
 
 def register(fixed: ANTsImage,
@@ -35,3 +36,32 @@ def register(fixed: ANTsImage,
                              moving=moving,
                              type_of_transform=type_of_transform,
                              mask=mask)
+
+
+def get_roi(registered_atlas: ANTsImage,
+            idx: int,
+            output_dir: str,
+            output_file: str,
+            save: bool = True) -> ANTsImage:
+    """Get the registered ROI from CerebrA atlas, into a
+    subject's native space.
+
+    Args:
+        image (ANTsImage): Subject's MRI
+        atlas (ANTsImage): CerebrA Atlas
+        idx (int): Index of the ROI
+        transform (list): Transformation from MNI to Native space
+        output_dir (str): Where to save the ROIs
+        output_file (str): Name of the ROIs
+        save (bool, optional): Save or not the ROIs. Defaults to True.
+
+    Returns:
+        ANTsImage: ROI in native space
+    """
+    roi = registered_atlas.copy()
+    roi[roi != idx] = 0
+
+    if save:
+        roi.to_file(f"{output_dir}/{output_file}")
+
+    return roi

@@ -26,41 +26,7 @@ def get_mni(contrast: str, bet: bool) -> ANTsImage:
 
 
 def get_roi_indices(roi: str) -> list:
+    roi = roi.title()
     cerebra = pd.read_csv("roiloc/MNI/cerebra/CerebrA_LabelDetails.csv",
                           index_col="Label Name")
     return [cerebra.loc[roi, "RH Label"], cerebra.loc[roi, "LH Labels"]]
-
-
-def get_roi(image: ANTsImage,
-            atlas: ANTsImage,
-            idx: int,
-            transform: list,
-            output_dir: str,
-            output_file: str,
-            save: bool = True) -> ANTsImage:
-    """Get the registered ROI from CerebrA atlas, into a
-    subject's native space.
-
-    Args:
-        image (ANTsImage): Subject's MRI
-        atlas (ANTsImage): CerebrA Atlas
-        idx (int): Index of the ROI
-        transform (list): Transformation from MNI to Native space
-        output_dir (str): Where to save the ROIs
-        output_file (str): Name of the ROIs
-        save (bool, optional): Save or not the ROIs. Defaults to True.
-
-    Returns:
-        ANTsImage: ROI in native space
-    """
-    hippocampus = ants.apply_transforms(fixed=image,
-                                        moving=atlas,
-                                        transformlist=transform,
-                                        interpolator="nearestNeighbor")
-
-    hippocampus[hippocampus != idx] = 0
-
-    if save:
-        hippocampus.to_file(f"{output_dir}/{output_file}")
-
-    return hippocampus
