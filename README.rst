@@ -4,7 +4,7 @@ Welcome to ROILoc
 
 ROILoc is a registration-based ROI locator, based on the MNI152 09c Sym template, and the CerebrA Atlas. It'll center and crop T1 or T2 MRIs around a given ROI.
 
-.. image:: example.png
+.. image:: https://raw.githubusercontent.com/clementpoiret/ROILoc/main/example.png
   :width: 400
   :alt: Example: using ROILoc for Hippocampus
   
