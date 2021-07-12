@@ -12,6 +12,8 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Topic :: Scientific/Engineering :: Image Processing"
 ]
+homepage = "https://hippomnesis.dev"
+repository = "https://github.com/clementpoiret/ROILoc"
 
 [tool.poetry.dependencies]
 python = "^3.7"
