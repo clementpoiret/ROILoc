@@ -72,14 +72,14 @@ def main(args):
                     idx=int(rois_idx[roi][i]),
                     output_dir=str(image_path.parent),
                     output_file=
-                    f"{stem}_{args.roi}_{side}_{args.transform}_mask.nii.gz",
+                    f"{stem}_{roi}_{side}_{args.transform}_mask.nii.gz",
                     save=True)
 
                 coords = get_coords(region.numpy(), margin=args.margin)
 
                 crop(
                     image_path, coords, image_path.parent /
-                    f"{stem}_{args.roi}_{side}_{args.transform}_crop.nii.gz")
+                    f"{stem}_{roi}_{side}_{args.transform}_crop.nii.gz")
 
     print("[bold green]Done! :)")
 
