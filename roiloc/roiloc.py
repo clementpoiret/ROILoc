@@ -7,7 +7,7 @@ import argparse
 from pathlib import Path
 
 import ants
-import pandas as pd
+import importlib_resources
 from rich import print
 from rich.console import Console
 from rich.progress import track
@@ -39,9 +39,10 @@ def main(args):
         )
 
     mni = get_mni(args.contrast, args.bet)
-    atlas = ants.image_read(
-        "./roiloc/MNI/cerebra/mni_icbm152_CerebrA_tal_nlin_sym_09c.nii",
-        pixeltype="unsigned int")
+    res = importlib_resources.files("roiloc")
+    data = str(res / "MNI" / "cerebra" /
+               "mni_icbm152_CerebrA_tal_nlin_sym_09c.nii")
+    atlas = ants.image_read(data, pixeltype="unsigned int")
 
     for image_path in track(images):
         stem = image_path.stem.split(".")[0]
@@ -83,7 +84,7 @@ def main(args):
     print("[bold green]Done! :)")
 
 
-if __name__ == "__main__":
+def start():
     parser = argparse.ArgumentParser(
         description=
         "Locate the Hippocampus or any other CerebrA ROI by using MNI152 Template and CerebrA Atlas"

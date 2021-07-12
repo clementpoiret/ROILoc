@@ -15,11 +15,12 @@ It requires the following packages:
 
 - ANTs (Can be a system installation or anaconda installation),
 - ANTsPyX,
+- importlib_resources,
 - NiBabel,
 - Pandas,
 - Rich.
 
-usage: roiloc.py [-h] -p PATH -i INPUTPATTERN [-r ROI] -c CONTRAST [-b BET] [-t TRANSFORM] [-m MARGIN [MARGIN ...]] [--mask MASK]
+usage: roiloc [-h] -p PATH -i INPUTPATTERN [-r ROI] -c CONTRAST [-b BET] [-t TRANSFORM] [-m MARGIN [MARGIN ...]] [--mask MASK]
 
 arguments::
 
@@ -57,7 +58,7 @@ Let's say I have a main database folder, containing one subfolder for each subje
 
 Therefore, to extract both left and right hippocampi (``Hippocampus``), I can run: 
 
-``python roiloc.py -p "~/Datasets/MemoDev/ManualSegmentation/" -i "**/tse.nii.gz" -r "hippocampus" -c "t2" -b True -t "AffineFast" -m 8 8 2 --mask "*brain_mask.nii``
+``roiloc -p "~/Datasets/MemoDev/ManualSegmentation/" -i "**/tse.nii.gz" -r "hippocampus" -c "t2" -b True -t "AffineFast" -m 8 8 2 --mask "*brain_mask.nii``
 
 
 Supported Registrations
