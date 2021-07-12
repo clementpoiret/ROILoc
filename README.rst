@@ -55,6 +55,7 @@ Installation
 ************
 
 1/ Be sure to have a working ANTs installation: `see on GitHub <https://github.com/ANTsX/ANTs>`_,
+
 2/ Simply run ``pip install roiloc`` (at least python 3.7).
 
 
