@@ -5,7 +5,7 @@ description = "A simple package to center and crop T1w & T2w MRIs around a given
 license = "MIT"
 readme = "README.rst"
 authors = ["Clément POIRET <poiret.clement@outlook.fr>"]
-keywords = ["mri", "brain", "t1w", "t2w", "mni", "registration", "ants"]
+keywords = ["mri", "brain", "t1w", "t2w", "registration"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
