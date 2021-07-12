@@ -1,10 +1,17 @@
 [tool.poetry]
 name = "ROILoc"
 version = "0.1.1"
-description = ""
+description = "A simple package to center and crop T1w & T2w MRIs around a given region of interest by its name."
 license = "MIT"
 readme = "README.rst"
 authors = ["Clément POIRET <poiret.clement@outlook.fr>"]
+keywords = ["mri", "brain", "t1w", "t2w", "mni", "registration", "ants"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Image Processing"
+]
 
 [tool.poetry.dependencies]
 python = "^3.7"
