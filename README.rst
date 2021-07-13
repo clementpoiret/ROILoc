@@ -20,10 +20,9 @@ It requires the following packages:
 - Pandas,
 - Rich.
 
-usage: roiloc [-h] -p PATH -i INPUTPATTERN [-r ROI [ROI ...]] -c CONTRAST
-              [-b BET] [-t TRANSFORM] [-m MARGIN [MARGIN ...]] [--mask MASK]
-              [--extracrops EXTRACROPS [EXTRACROPS ...]]
-              [--savesteps SAVESTEPS]
+usage: roiloc [-h] -p PATH -i INPUTPATTERN [-r ROI [ROI ...]] -c CONTRAST [-b]
+              [-t TRANSFORM] [-m MARGIN [MARGIN ...]] [--mask MASK]
+              [--extracrops EXTRACROPS [EXTRACROPS ...]] [--savesteps]
 
 arguments::
 
@@ -39,8 +38,7 @@ arguments::
   -c CONTRAST, --contrast CONTRAST
                         <Required> Contrast of the input MRI. Can be `t1` or
                         `t2`.
-  -b BET, --bet BET     Boolean to choose if we use the BET version of the
-                        MNI152 template.
+  -b, --bet             Flag use the BET version of the MNI152 template.
   -t TRANSFORM, --transform TRANSFORM
                         Type of registration. See `https://antspy.readthedocs.
                         io/en/latest/registration.html` for the complete list
@@ -51,14 +49,12 @@ arguments::
                         in the three axis. Default: [8,8,2]
   --mask MASK           Pattern for brain tissue mask to improve registration
                         (e.g.: `sub_*bet_mask.nii.gz`). If providing a BET
-                        mask, please also pass `-b True` to use a BET MNI
-                        template.
+                        mask, please also pass `-b` to use a BET MNI template.
   --extracrops EXTRACROPS [EXTRACROPS ...]
                         Pattern for other files to crop (e.g. manual
                         segmentation: '*manual_segmentation_left*.nii.gz').
-  --savesteps SAVESTEPS
-                        Save intermediate files (e.g. registered atlas).
-                        Default: False.
+  --savesteps           Flag to save intermediate files (e.g. registered
+                        atlas).
 
 
 Installation
