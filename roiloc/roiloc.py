@@ -127,14 +127,13 @@ def start():
         required=True,
         type=str)
 
-    parser.add_argument(
-        "-b",
-        "--bet",
-        help=
-        "Boolean to choose if we use the BET version of the MNI152 template.",
-        required=False,
-        default=False,
-        type=bool)
+    parser.add_argument("-b",
+                        "--bet",
+                        help="Flag use the BET version of the MNI152 template.",
+                        required=False,
+                        default=False,
+                        action='store_true',
+                        type=bool)
 
     parser.add_argument(
         "-t",
@@ -158,7 +157,7 @@ def start():
     parser.add_argument(
         "--mask",
         help=
-        "Pattern for brain tissue mask to improve registration (e.g.: `sub_*bet_mask.nii.gz`). If providing a BET mask, please also pass `-b True` to use a BET MNI template.",
+        "Pattern for brain tissue mask to improve registration (e.g.: `sub_*bet_mask.nii.gz`). If providing a BET mask, please also pass `-b` to use a BET MNI template.",
         required=False,
         type=str,
         default=None)
@@ -174,8 +173,9 @@ def start():
 
     parser.add_argument(
         "--savesteps",
-        help="Save intermediate files (e.g. registered atlas). Default: False.",
+        help="Flag to save intermediate files (e.g. registered atlas).",
         required=False,
+        action='store_true',
         type=bool,
         default=False)
 
