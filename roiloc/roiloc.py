@@ -39,10 +39,6 @@ def main(args):
         )
 
     mni = get_mni(args.contrast, args.bet)
-    res = importlib_resources.files("roiloc")
-    data = str(res / "MNI" / "cerebra" /
-               "mni_icbm152_CerebrA_tal_nlin_sym_09c.nii")
-    atlas = ants.image_read(data, pixeltype="unsigned int")
 
     for image_path in track(images):
         stem = image_path.stem.split(".")[0]

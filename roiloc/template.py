@@ -28,6 +28,14 @@ def get_mni(contrast: str, bet: bool) -> ANTsImage:
 
 
 def get_roi_indices(roi: str) -> list:
+    """Get left and right indices from CerebrA atlas
+
+    Args:
+        roi (str): ROI name
+
+    Returns:
+        list: List of left & right indices
+    """
     roi = roi.title()
 
     res = importlib_resources.files("roiloc")
@@ -35,3 +43,15 @@ def get_roi_indices(roi: str) -> list:
     cerebra = pd.read_csv(data, index_col="Label Name")
 
     return [cerebra.loc[roi, "RH Label"], cerebra.loc[roi, "LH Labels"]]
+
+
+def get_atlas() -> ANTsImage:
+    """Get the CerebrA atlas
+
+    Returns:
+        ANTsImage: CerebrA atlas
+    """
+    res = importlib_resources.files("roiloc")
+    data = str(res / "MNI" / "cerebra" /
+               "mni_icbm152_CerebrA_tal_nlin_sym_09c.nii")
+    return ants.image_read(data, pixeltype="unsigned int")
