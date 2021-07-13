@@ -5,7 +5,7 @@ Welcome to ROILoc
 ROILoc is a registration-based ROI locator, based on the MNI152 09c Sym template, and the CerebrA Atlas. It'll center and crop T1 or T2 MRIs around a given ROI.
 
 .. image:: https://raw.githubusercontent.com/clementpoiret/ROILoc/main/example.png
-  :width: 400
+  :width: 800
   :alt: Example: using ROILoc for Hippocampus
   
 If the results aren't correct, please consider performing BET/Skull Stripping on your subject's MRI beforehand, then pass ``-b True`` afterward.
@@ -20,7 +20,10 @@ It requires the following packages:
 - Pandas,
 - Rich.
 
-usage: roiloc [-h] -p PATH -i INPUTPATTERN [-r ROI] -c CONTRAST [-b BET] [-t TRANSFORM] [-m MARGIN [MARGIN ...]] [--mask MASK]
+usage: roiloc [-h] -p PATH -i INPUTPATTERN [-r ROI [ROI ...]] -c CONTRAST
+              [-b BET] [-t TRANSFORM] [-m MARGIN [MARGIN ...]] [--mask MASK]
+              [--extracrops EXTRACROPS [EXTRACROPS ...]]
+              [--savesteps SAVESTEPS]
 
 arguments::
 
@@ -29,7 +32,8 @@ arguments::
   -i INPUTPATTERN, --inputpattern INPUTPATTERN
                         <Required> Pattern to find input images in input path
                         (e.g.: `**/*t1*.nii.gz`).
-  -r ROI, --roi ROI     ROI included in CerebrA. See
+  -r ROI [ROI ...], --roi ROI [ROI ...]
+                        ROI included in CerebrA. See
                         `roiloc/MNI/cerebra/CerebrA_LabelDetails.csv` for more
                         details. Default: 'Hippocampus'.
   -c CONTRAST, --contrast CONTRAST
@@ -46,9 +50,15 @@ arguments::
                         has to be a list of 3 integers, to control the margin
                         in the three axis. Default: [8,8,2]
   --mask MASK           Pattern for brain tissue mask to improve registration
-                        (e.g.: `**/sub_*bet_mask.nii.gz`). If providing a BET
+                        (e.g.: `sub_*bet_mask.nii.gz`). If providing a BET
                         mask, please also pass `-b True` to use a BET MNI
                         template.
+  --extracrops EXTRACROPS [EXTRACROPS ...]
+                        Pattern for other files to crop (e.g. manual
+                        segmentation: '*manual_segmentation_left*.nii.gz').
+  --savesteps SAVESTEPS
+                        Save intermediate files (e.g. registered atlas).
+                        Default: False.
 
 
 Installation
