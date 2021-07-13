@@ -131,9 +131,9 @@ def start():
                         "--bet",
                         help="Flag use the BET version of the MNI152 template.",
                         required=False,
+                        dest="bet",
                         default=False,
-                        action='store_true',
-                        type=bool)
+                        action='store_true')
 
     parser.add_argument(
         "-t",
@@ -175,8 +175,8 @@ def start():
         "--savesteps",
         help="Flag to save intermediate files (e.g. registered atlas).",
         required=False,
+        dest="savesteps",
         action='store_true',
-        type=bool,
         default=False)
 
     args = parser.parse_args()
