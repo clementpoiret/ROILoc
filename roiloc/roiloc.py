@@ -127,13 +127,14 @@ def start():
         required=True,
         type=str)
 
-    parser.add_argument("-b",
-                        "--bet",
-                        help="Flag use the BET version of the MNI152 template.",
-                        required=False,
-                        dest="bet",
-                        default=False,
-                        action='store_true')
+    parser.add_argument(
+        "-b",
+        "--bet",
+        help="Flag to use the BET version of the MNI152 template.",
+        required=False,
+        dest="bet",
+        default=False,
+        action='store_true')
 
     parser.add_argument(
         "-t",
