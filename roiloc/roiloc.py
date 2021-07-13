@@ -14,7 +14,7 @@ from rich.progress import track
 
 from roiloc.location import crop, get_coords
 from roiloc.registration import get_roi, register
-from roiloc.template import get_mni, get_roi_indices
+from roiloc.template import get_atlas, get_mni, get_roi_indices
 
 console = Console()
 
@@ -39,6 +39,7 @@ def main(args):
         )
 
     mni = get_mni(args.contrast, args.bet)
+    atlas = get_atlas()
 
     for image_path in track(images):
         stem = image_path.stem.split(".")[0]
@@ -69,13 +70,21 @@ def main(args):
                     output_dir=str(image_path.parent),
                     output_file=
                     f"{stem}_{roi}_{side}_{args.transform}_mask.nii.gz",
-                    save=True)
+                    save=args.savesteps)
 
                 coords = get_coords(region.numpy(), margin=args.margin)
 
-                crop(
-                    image_path, coords, image_path.parent /
-                    f"{stem}_{roi}_{side}_{args.transform}_crop.nii.gz")
+                extra_files = [
+                    f for f_ in
+                    [image_path.parent.glob(e) for e in args.extrafiles]
+                    for f in f_
+                ]
+                files = [image_path, *extra_files]
+
+                for file in files:
+                    crop(
+                        file, coords, image_path.parent /
+                        f"{stem}_{roi}_{side}_{args.transform}_crop.nii.gz")
 
     print("[bold green]Done! :)")
 
@@ -148,10 +157,26 @@ def start():
     parser.add_argument(
         "--mask",
         help=
-        "Pattern for brain tissue mask to improve registration (e.g.: `**/sub_*bet_mask.nii.gz`). If providing a BET mask, please also pass `-b True` to use a BET MNI template.",
+        "Pattern for brain tissue mask to improve registration (e.g.: `sub_*bet_mask.nii.gz`). If providing a BET mask, please also pass `-b True` to use a BET MNI template.",
         required=False,
         type=str,
         default=None)
+
+    parser.add_argument(
+        "--extracrops",
+        nargs='+',
+        help=
+        "Pattern for other files to crop (e.g. manual segmentation: '*manual_segmentation_left*.nii.gz').",
+        required=False,
+        type=str,
+        default=[])
+
+    parser.add_argument(
+        "--savesteps",
+        help="Save intermediate files (e.g. registered atlas). Default: False.",
+        required=False,
+        type=bool,
+        default=False)
 
     args = parser.parse_args()
 
