@@ -76,7 +76,7 @@ def main(args):
 
                 extra_files = [
                     f for f_ in
-                    [image_path.parent.glob(e) for e in args.extrafiles]
+                    [image_path.parent.glob(e) for e in args.extracrops]
                     for f in f_
                 ]
                 files = [image_path, *extra_files]
