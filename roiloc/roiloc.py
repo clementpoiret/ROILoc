@@ -42,7 +42,7 @@ def main(args):
     atlas = get_atlas()
 
     for image_path in track(images):
-        stem = image_path.stem.split(".")[0]
+        image_stem = image_path.stem.split(".")[0]
 
         print(f"\n[bold blue]Processing {str(image_path)}")
         image = ants.image_read(str(image_path), pixeltype="float")
@@ -69,7 +69,7 @@ def main(args):
                     idx=int(rois_idx[roi][i]),
                     output_dir=str(image_path.parent),
                     output_file=
-                    f"{stem}_{roi}_{side}_{args.transform}_mask.nii.gz",
+                    f"{image_stem}_{roi}_{side}_{args.transform}_mask.nii.gz",
                     save=args.savesteps)
 
                 coords = get_coords(region.numpy(), margin=args.margin)
@@ -82,9 +82,10 @@ def main(args):
                 files = [image_path, *extra_files]
 
                 for file in files:
+                    fstem = file.stem.split(".")[0]
                     crop(
                         file, coords, image_path.parent /
-                        f"{stem}_{roi}_{side}_{args.transform}_crop.nii.gz")
+                        f"{fstem}_{roi}_{side}_{args.transform}_crop.nii.gz")
 
     print("[bold green]Done! :)")
 

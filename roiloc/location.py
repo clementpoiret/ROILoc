@@ -3,6 +3,7 @@ from typing import Union
 
 import nibabel as nib
 import numpy as np
+from rich import print
 
 
 def get_coords(x: np.ndarray, margin: list = [4, 4, 2]) -> list:
