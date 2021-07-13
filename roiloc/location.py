@@ -48,8 +48,12 @@ def crop(image_path: Union[str, PosixPath], coords: list,
                                                coords[1]:coords[4],
                                                coords[2]:coords[5]]
 
-    cropped = nib.Nifti1Image(cropped_array,
-                              affine=original_image.affine,
-                              header=original_image.header)
-
-    nib.save(cropped, output_path)
+    if cropped_array.any():
+        cropped = nib.Nifti1Image(cropped_array,
+                                  affine=original_image.affine,
+                                  header=original_image.header)
+        nib.save(cropped, output_path)
+    else:
+        print(
+            f"[orange]Empty cropped array, skipping {image_path} for coordinates {coords}..."
+        )
