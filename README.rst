@@ -3,6 +3,7 @@ Welcome to ROILoc
 =================
 
 ROILoc is a registration-based ROI locator, based on the MNI152 09c Sym template, and the CerebrA Atlas. It'll center and crop T1 or T2 MRIs around a given ROI.
+Results are saved in "LPI-" (or "RAS+") format.
 
 .. image:: https://raw.githubusercontent.com/clementpoiret/ROILoc/main/example.png
   :width: 800
@@ -16,7 +17,6 @@ It requires the following packages:
 - ANTs (Can be a system installation or anaconda installation),
 - ANTsPyX,
 - importlib_resources,
-- NiBabel,
 - Pandas,
 - Rich.
 
