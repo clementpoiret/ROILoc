@@ -29,10 +29,11 @@ def register(fixed: ANTsImage,
             mask = ants.image_read(str(mask_path[0]),
                                    pixeltype="unsigned int",
                                    reorient="LPI")
-            print(f"Using mask {str(mask_path[0])}")
+            print(f"\tUsing mask {str(mask_path[0])}")
         else:
             print(
-                "[bold red]Warning: no mask found. Registering without mask...")
+                "\t[bold red]Warning: no mask found. Registering without mask..."
+            )
 
     return ants.registration(fixed=fixed,
                              moving=moving,

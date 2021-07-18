@@ -58,5 +58,5 @@ def crop(image: ANTsImage,
 
     else:
         print(
-            f"[orange]Empty cropped array, skipping {output_path} for coordinates {coords}..."
+            f"[italic white]\tEmpty cropped array, skipping {output_path} for coordinates {coords}..."
         )

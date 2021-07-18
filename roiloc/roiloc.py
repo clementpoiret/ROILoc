@@ -49,7 +49,7 @@ def main(args):
                                 pixeltype="float",
                                 reorient="LPI")
 
-        print("Registering MNI to native space...")
+        print("\tRegistering MNI to native space...")
         registration = register(image,
                                 mni,
                                 args.transform,
@@ -63,7 +63,7 @@ def main(args):
             interpolator="nearestNeighbor")
 
         for roi in rois_idx:
-            print(f"Transforming and saving {roi}...")
+            print(f"\tTransforming and saving {roi}...")
 
             for i, side in enumerate(["right", "left"]):
                 region = get_roi(
@@ -187,8 +187,8 @@ def start():
     args = parser.parse_args()
 
     print("""[bold green]Copyright (C) 2021  Clément POIRET[/bold green]
-    This program comes with [bold magenta]ABSOLUTELY NO WARRANTY[/bold magenta]; for help, launch it with `-h`.
-    This is free software, and you are welcome to redistribute it under certain conditions.\n\n"""
+This program comes with [bold magenta]ABSOLUTELY NO WARRANTY[/bold magenta]; for help, launch it with `-h`.
+This is free software, and you are welcome to redistribute it under certain conditions.\n\n"""
          )
 
     main(args)
