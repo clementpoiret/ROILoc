@@ -43,8 +43,8 @@ def register(fixed: ANTsImage,
 
 def get_roi(registered_atlas: ANTsImage,
             idx: int,
-            output_dir: str,
-            output_file: str,
+            output_dir: Optional[str] = None,
+            output_file: Optional[str] = None,
             save: bool = True) -> ANTsImage:
     """Get the registered ROI from CerebrA atlas, into a
     subject's native space.
@@ -54,8 +54,8 @@ def get_roi(registered_atlas: ANTsImage,
         atlas (ANTsImage): CerebrA Atlas
         idx (int): Index of the ROI
         transform (list): Transformation from MNI to Native space
-        output_dir (str): Where to save the ROIs
-        output_file (str): Name of the ROIs
+        output_dir (str, optional): Where to save the ROIs
+        output_file (str, optional): Name of the ROIs
         save (bool, optional): Save or not the ROIs. Defaults to True.
 
     Returns:

@@ -1,4 +1,5 @@
 from pathlib import PosixPath
+from typing import Optional
 
 import ants
 import numpy as np
@@ -36,27 +37,32 @@ def get_coords(x: np.ndarray, margin: list = [4, 4, 2]) -> list:
 
 def crop(image: ANTsImage,
          coords: list,
-         output_path: PosixPath,
-         log_coords: bool = True):
+         output_path: Optional[PosixPath] = None,
+         log_coords: bool = True,
+         ri: bool = False):
     """Crop an image using coordinates.
 
     Args:
         image (ANTsImage): image to be cropped
         coords (list): coordinates of the ROI
-        output_path (PosixPath): path to save the cropped image
+        output_path (PosixPath, optional): path to save the cropped image
         log_coords (bool, optional): log the coordinates. Defaults to True.
+        ri (bool): if True, return the ROI as an ANTsImage. Defaults to False.
     """
     cropped_image = ants.crop_indices(image,
                                       lowerind=coords[:3],
                                       upperind=coords[3:])
 
     if cropped_image.numpy().any():
-        ants.image_write(cropped_image, str(output_path), ri=False)
-
-        if log_coords:
-            np.savetxt(output_path.with_suffix(".txt"), coords)
+        if output_path:
+            ants.image_write(cropped_image, str(output_path), ri=False)
+            if log_coords:
+                np.savetxt(output_path.with_suffix(".txt"), coords)
 
     else:
         print(
-            f"[italic white]\tEmpty cropped array, skipping {output_path} for coordinates {coords}..."
+            f"[italic white]\tEmpty cropped array, skipping for coordinates {coords}..."
         )
+
+    if ri:
+        return cropped_image
