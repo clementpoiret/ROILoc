@@ -1,7 +1,8 @@
 from pathlib import PosixPath
 
-import nibabel as nib
+import ants
 import numpy as np
+from ants.core import ANTsImage
 from rich import print
 
 
@@ -33,35 +34,29 @@ def get_coords(x: np.ndarray, margin: list = [4, 4, 2]) -> list:
     return [minx, miny, minz, maxx, maxy, maxz]
 
 
-def crop(image_path: PosixPath,
+def crop(image: ANTsImage,
          coords: list,
          output_path: PosixPath,
          log_coords: bool = True):
-    """Crop an image given some xyzxyz coordinates, and save it.
+    """Crop an image using coordinates.
 
     Args:
-        image_path (PosixPath): Path of the original MRI
-        coords (list): xyzxyz coordinates of the ROI
-        output_path (PosixPath): Path of the output file
-        log_coords (bool, optional): Log the coordinates in the output file.
-                                     Defaults to True.
+        image (ANTsImage): image to be cropped
+        coords (list): coordinates of the ROI
+        output_path (PosixPath): path to save the cropped image
+        log_coords (bool, optional): log the coordinates. Defaults to True.
     """
-    original_image = nib.load(image_path)
+    cropped_image = ants.crop_indices(image,
+                                      lowerind=coords[:3],
+                                      upperind=coords[3:])
 
-    cropped_array = original_image.get_fdata()[coords[0]:coords[3] + 1,
-                                               coords[1]:coords[4] + 1,
-                                               coords[2]:coords[5] + 1]
-
-    if cropped_array.any():
-        cropped = nib.Nifti1Image(cropped_array,
-                                  affine=original_image.affine,
-                                  header=original_image.header)
-        nib.save(cropped, output_path)
+    if cropped_image.numpy().any():
+        ants.image_write(cropped_image, str(output_path), ri=False)
 
         if log_coords:
             np.savetxt(output_path.with_suffix(".txt"), coords)
 
     else:
         print(
-            f"[orange]Empty cropped array, skipping {image_path} for coordinates {coords}..."
+            f"[orange]Empty cropped array, skipping {output_path} for coordinates {coords}..."
         )

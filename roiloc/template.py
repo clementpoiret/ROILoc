@@ -24,7 +24,7 @@ def get_mni(contrast: str, bet: bool) -> ANTsImage:
     template = f"mni_icbm152_{contrast}{betstr}_tal_nlin_sym_09c.nii"
     res = importlib_resources.files("roiloc")
     data = str(res / "MNI" / "icbm152" / template)
-    return ants.image_read(str(data), pixeltype="float")
+    return ants.image_read(str(data), pixeltype="float", reorient="LPI")
 
 
 def get_roi_indices(roi: str) -> list:
@@ -54,4 +54,4 @@ def get_atlas() -> ANTsImage:
     res = importlib_resources.files("roiloc")
     data = str(res / "MNI" / "cerebra" /
                "mni_icbm152_CerebrA_tal_nlin_sym_09c.nii")
-    return ants.image_read(data, pixeltype="unsigned int")
+    return ants.image_read(data, pixeltype="unsigned int", reorient="LPI")

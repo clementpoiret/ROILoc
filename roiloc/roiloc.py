@@ -45,7 +45,9 @@ def main(args):
         image_stem = image_path.stem.split(".")[0]
 
         print(f"\n[bold blue]Processing {str(image_path)}")
-        image = ants.image_read(str(image_path), pixeltype="float")
+        image = ants.image_read(str(image_path),
+                                pixeltype="float",
+                                reorient="LPI")
 
         print("Registering MNI to native space...")
         registration = register(image,
@@ -83,7 +85,7 @@ def main(args):
 
                 for file in files:
                     fstem = file.stem.split(".")[0]
-                    crop(file,
+                    crop(ants.image_read(str(file), reorient="LPI"),
                          coords,
                          image_path.parent /
                          f"{fstem}_{roi}_{side}_{args.transform}_crop.nii.gz",

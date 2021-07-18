@@ -26,7 +26,9 @@ def register(fixed: ANTsImage,
     if mask:
         mask_path = list(path.glob(mask))
         if mask_path:
-            mask = ants.image_read(str(mask_path[0]), pixeltype="unsigned int")
+            mask = ants.image_read(str(mask_path[0]),
+                                   pixeltype="unsigned int",
+                                   reorient="LPI")
             print(f"Using mask {str(mask_path[0])}")
         else:
             print(
