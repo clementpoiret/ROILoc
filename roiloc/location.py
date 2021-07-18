@@ -1,5 +1,4 @@
 from pathlib import PosixPath
-from typing import Union
 
 import nibabel as nib
 import numpy as np
@@ -34,14 +33,18 @@ def get_coords(x: np.ndarray, margin: list = [4, 4, 2]) -> list:
     return [minx, miny, minz, maxx, maxy, maxz]
 
 
-def crop(image_path: Union[str, PosixPath], coords: list,
-         output_path: Union[str, PosixPath]):
+def crop(image_path: PosixPath,
+         coords: list,
+         output_path: PosixPath,
+         log_coords: bool = True):
     """Crop an image given some xyzxyz coordinates, and save it.
 
     Args:
-        image_path (Union[str, PosixPath]): Path of the original MRI
+        image_path (PosixPath): Path of the original MRI
         coords (list): xyzxyz coordinates of the ROI
-        output_path (Union[str, PosixPath]): Path of the output file
+        output_path (PosixPath): Path of the output file
+        log_coords (bool, optional): Log the coordinates in the output file.
+                                     Defaults to True.
     """
     original_image = nib.load(image_path)
 
@@ -54,6 +57,10 @@ def crop(image_path: Union[str, PosixPath], coords: list,
                                   affine=original_image.affine,
                                   header=original_image.header)
         nib.save(cropped, output_path)
+
+        if log_coords:
+            np.savetxt(output_path.with_suffix(".txt"), coords)
+
     else:
         print(
             f"[orange]Empty cropped array, skipping {image_path} for coordinates {coords}..."

@@ -83,9 +83,11 @@ def main(args):
 
                 for file in files:
                     fstem = file.stem.split(".")[0]
-                    crop(
-                        file, coords, image_path.parent /
-                        f"{fstem}_{roi}_{side}_{args.transform}_crop.nii.gz")
+                    crop(file,
+                         coords,
+                         image_path.parent /
+                         f"{fstem}_{roi}_{side}_{args.transform}_crop.nii.gz",
+                         log_coords=True)
 
     print("[bold green]Done! :)")
 
