@@ -45,9 +45,9 @@ def crop(image_path: Union[str, PosixPath], coords: list,
     """
     original_image = nib.load(image_path)
 
-    cropped_array = original_image.get_fdata()[coords[0]:coords[3],
-                                               coords[1]:coords[4],
-                                               coords[2]:coords[5]]
+    cropped_array = original_image.get_fdata()[coords[0]:coords[3] + 1,
+                                               coords[1]:coords[4] + 1,
+                                               coords[2]:coords[5] + 1]
 
     if cropped_array.any():
         cropped = nib.Nifti1Image(cropped_array,
