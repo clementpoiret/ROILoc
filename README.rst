@@ -20,6 +20,10 @@ It requires the following packages:
 - Pandas,
 - Rich.
 
+
+CLI
+***
+
 usage: roiloc [-h] -p PATH -i INPUTPATTERN [-r ROI [ROI ...]] -c CONTRAST [-b]
               [-t TRANSFORM] [-m MARGIN [MARGIN ...]] [--mask MASK]
               [--extracrops EXTRACROPS [EXTRACROPS ...]] [--savesteps]
@@ -55,6 +59,41 @@ arguments::
                         segmentation: '*manual_segmentation_left*.nii.gz').
   --savesteps           Flag to save intermediate files (e.g. registered
                         atlas).
+
+
+Python API
+**********
+
+Even if the CLI interface is the main use case, a Python API is also available since v0.2.0.
+
+The API syntax retakes sklearn's API syntax, with a ``RoiLocator`` class, having ``fit``, ``transform``, ``fit_transform`` and ``inverse_transform`` methods as seen below.
+
+.. code-block:: python
+
+    import ants
+    from roiloc.locator import RoiLocator
+
+    image = ants.image_read("./sub00_t2w.nii.gz",
+                            reorient="LPI")
+
+    locator = RoiLocator(contrast="t2", roi="hippocampus", bet=False)
+
+    # Fit the locator and get the transformed MRIs
+    right, left = locator.fit_transform(image)
+    # Coordinates can be obtained through the `coords` attribute
+    print(locator.get_coords())
+
+    # Let 'model' be a segmentation model of the hippocampus
+    right_seg = model(right)
+    left_seg = model(left)
+
+    # Transform the segmentation back to the original image
+    right_seg = locator.inverse_transform(right_seg)
+    left_seg = locator.inverse_transform(left_seg)
+
+    # Save the resulting segmentations in the original space
+    ants.image_write(right_seg, "./sub00_hippocampus_right.nii.gz")
+    ants.image_write(left_seg, "./sub00_hippocampus_left.nii.gz")
 
 
 Installation
