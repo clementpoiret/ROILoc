@@ -28,13 +28,13 @@ def get_mni(contrast: str, bet: bool) -> ANTsImage:
 
 
 def get_roi_indices(roi: str) -> list:
-    """Get left and right indices from CerebrA atlas
+    """Get right and left indices from CerebrA atlas
 
     Args:
         roi (str): ROI name
 
     Returns:
-        list: List of left & right indices
+        list: List of right & left indices
     """
     roi = roi.title()
 

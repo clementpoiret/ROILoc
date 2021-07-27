@@ -1,7 +1,8 @@
 from pathlib import PosixPath
-from typing import Optional
+from typing import Optional, Union
 
 import ants
+import numpy as np
 from ants.core.ants_image import ANTsImage
 from rich import print
 
@@ -52,7 +53,7 @@ def get_roi(registered_atlas: ANTsImage,
     Args:
         image (ANTsImage): Subject's MRI
         atlas (ANTsImage): CerebrA Atlas
-        idx (int): Index of the ROI
+        idx (int|list): Index of the ROI(s)
         transform (list): Transformation from MNI to Native space
         output_dir (str, optional): Where to save the ROIs
         output_file (str, optional): Name of the ROIs
@@ -63,6 +64,7 @@ def get_roi(registered_atlas: ANTsImage,
     """
     roi = registered_atlas.copy()
     roi[roi != idx] = 0
+    # roi[~np.isin(roi, idx)] = 0
 
     if save:
         roi.to_file(f"{output_dir}/{output_file}")

@@ -49,6 +49,13 @@ def crop(image: ANTsImage,
         log_coords (bool, optional): log the coordinates. Defaults to True.
         ri (bool): if True, return the ROI as an ANTsImage. Defaults to False.
     """
+    assert all(
+        [a <= b for a, b in zip(coords[:3], image.shape)]
+    ), f"Coordinates {coords[:3]} out-of-range for image shape {list(image.shape)}. It may indicate a registration problem, or too big margins."
+    assert all(
+        [a <= b for a, b in zip(coords[3:], image.shape)]
+    ), f"Coordinates {coords[3:]} out-of-range for image shape {list(image.shape)}. It may indicate a registration problem, or too big margins."
+
     cropped_image = ants.crop_indices(image,
                                       lowerind=coords[:3],
                                       upperind=coords[3:])

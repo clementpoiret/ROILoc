@@ -7,7 +7,6 @@ import argparse
 from pathlib import Path
 
 import ants
-import importlib_resources
 from rich import print
 from rich.console import Console
 from rich.progress import track
@@ -29,7 +28,6 @@ def main(args):
 
     # Getting roi from cerebra's csv
     rois_idx = {roi: get_roi_indices(roi) for roi in args.roi}
-    # roi_idx = get_roi_indices(args.roi)
 
     # Loading mris, template and atlas
     images = list(path.glob(args.inputpattern))
@@ -61,6 +59,15 @@ def main(args):
             moving=atlas,
             transformlist=registration["fwdtransforms"],
             interpolator="nearestNeighbor")
+
+        if args.savesteps:
+            print("\tSaving intermediate files...")
+            ants.image_write(
+                image, image_path.parent /
+                (str(image_path.stem).split(".")[0] + "_LPI.nii.gz"))
+            ants.image_write(
+                registered_atlas, image, image_path.parent /
+                (str(image_path.stem).split(".")[0] + "_CerebrA.nii.gz"))
 
         for roi in rois_idx:
             print(f"\tTransforming and saving {roi}...")
