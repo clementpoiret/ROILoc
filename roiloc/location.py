@@ -7,12 +7,12 @@ from ants.core import ANTsImage
 from rich import print
 
 
-def get_coords(x: np.ndarray, margin: list = [4, 4, 2]) -> list:
+def get_coords(x: np.ndarray, margin: list = [8, 8, 8]) -> list:
     """Get coordinates of a given ROI, and apply a margin.
 
     Args:
         x (np.ndarray): ROI in binary format
-        margin (list, optional): margin for xyz axes. Defaults to [4, 4, 2]
+        margin (list, optional): margin for xyz axes. Defaults to [8, 8, 8]
 
     Returns:
         list: Coordinates in xyzxyz format

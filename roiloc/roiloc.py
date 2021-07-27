@@ -161,9 +161,9 @@ def start():
         nargs='+',
         type=int,
         help=
-        "Margin to add around the bounding box in voxels. It has to be a list of 3 integers, to control the margin in the three axis. Default: [8,8,2]",
+        "Margin to add around the bounding box in voxels. It has to be a list of 3 integers, to control the margin in the three axis (0: left/right margin, 1: post/ant margin, 2: inf/sup margin). Default: [8,8,8]",
         required=False,
-        default=[8, 8, 2])
+        default=[8, 8, 8])
 
     parser.add_argument(
         "--mask",

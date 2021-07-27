@@ -50,7 +50,8 @@ arguments::
   -m MARGIN [MARGIN ...], --margin MARGIN [MARGIN ...]
                         Margin to add around the bounding box in voxels. It
                         has to be a list of 3 integers, to control the margin
-                        in the three axis. Default: [8,8,2]
+                        in the three axis (0: left/right margin, 1: post/ant
+                        margin, 2: inf/sup margin). Default: [8,8,8]
   --mask MASK           Pattern for brain tissue mask to improve registration
                         (e.g.: `sub_*bet_mask.nii.gz`). If providing a BET
                         mask, please also pass `-b` to use a BET MNI template.
@@ -111,7 +112,7 @@ Let's say I have a main database folder, containing one subfolder for each subje
 
 Therefore, to extract both left and right hippocampi (``Hippocampus``), I can run: 
 
-``roiloc -p "~/Datasets/MemoDev/ManualSegmentation/" -i "**/tse.nii.gz" -r "hippocampus" -c "t2" -b True -t "AffineFast" -m 8 8 2 --mask "*brain_mask.nii``
+``roiloc -p "~/Datasets/MemoDev/ManualSegmentation/" -i "**/tse.nii.gz" -r "hippocampus" -c "t2" -b -t "AffineFast" -m 16 2 16 --mask "*brain_mask.nii``
 
 
 Supported Registrations
