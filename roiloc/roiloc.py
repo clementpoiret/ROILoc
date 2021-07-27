@@ -42,6 +42,12 @@ def main(args):
     for image_path in track(images):
         image_stem = image_path.stem.split(".")[0]
 
+        extra_files = [
+            f for f_ in [image_path.parent.glob(e) for e in args.extracrops]
+            for f in f_
+        ]
+        files = [image_path, *extra_files]
+
         print(f"\n[bold blue]Processing {str(image_path)}")
         image = ants.image_read(str(image_path),
                                 pixeltype="float",
@@ -82,13 +88,6 @@ def main(args):
                     save=args.savesteps)
 
                 coords = get_coords(region.numpy(), margin=args.margin)
-
-                extra_files = [
-                    f for f_ in
-                    [image_path.parent.glob(e) for e in args.extracrops]
-                    for f in f_
-                ]
-                files = [image_path, *extra_files]
 
                 for file in files:
                     fstem = file.stem.split(".")[0]
