@@ -69,11 +69,13 @@ def main(args):
         if args.savesteps:
             print("\tSaving intermediate files...")
             ants.image_write(
-                image, image_path.parent /
-                (str(image_path.stem).split(".")[0] + "_LPI.nii.gz"))
+                image,
+                str(image_path.parent /
+                    (str(image_path.stem).split(".")[0] + "_LPI.nii.gz")))
             ants.image_write(
-                registered_atlas, image, image_path.parent /
-                (str(image_path.stem).split(".")[0] + "_CerebrA.nii.gz"))
+                registered_atlas,
+                str(image_path.parent /
+                    (str(image_path.stem).split(".")[0] + "_CerebrA.nii.gz")))
 
         for roi in rois_idx:
             print(f"\tTransforming and saving {roi}...")
