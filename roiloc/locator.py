@@ -1,6 +1,7 @@
 from typing import Optional
 
 import ants
+import numpy as np
 from ants.core import ANTsImage
 
 from .location import crop, get_coords
@@ -128,7 +129,10 @@ class RoiLocator:
         Returns:
             ANTsImage: Inverse transformed image.
         """
-        return ants.decrop_image(image, self._image)
+        empty_image = self._image.new_image_like(
+            np.zeros_like(self._image.numpy()))
+
+        return ants.decrop_image(image, empty_image)
 
 
 def test():
