@@ -120,19 +120,26 @@ class RoiLocator:
         self.fit(image)
         return self.transform(image)
 
-    def inverse_transform(self, image: ANTsImage) -> ANTsImage:
+    def inverse_transform(self,
+                          image: ANTsImage,
+                          decrop_is_zero: bool = True) -> ANTsImage:
         """Inverse transform the image to the native space.
 
         Args:
             image (ANTsImage): Image to inverse transform.
+            decrop_is_zero (bool, optional): Whether to decrop the image with
+                zeros or original tissue. Defaults to True.
 
         Returns:
             ANTsImage: Inverse transformed image.
         """
-        empty_image = self._image.new_image_like(
-            np.zeros_like(self._image.numpy()))
+        if decrop_is_zero:
+            reference = self._image.new_image_like(
+                np.zeros_like(self._image.numpy()))
+        else:
+            reference = self._image
 
-        return ants.decrop_image(image, empty_image)
+        return ants.decrop_image(image, reference)
 
 
 def test():
