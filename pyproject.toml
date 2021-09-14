@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ROILoc"
-version = "0.2.3"
+version = "0.2.4"
 description = "A simple package to center and crop T1w & T2w MRIs around a given region of interest by its name."
 license = "MIT"
 readme = "README.rst"
