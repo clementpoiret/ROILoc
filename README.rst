@@ -197,3 +197,25 @@ Supported ROIs
 - Vermal lobules I-V,
 - Vermal lobules VI-VII,
 - Vermal lobules VIII-X.
+
+
+Cite this work
+**************
+
+If you use this software, please cite it as below.
+
+authors:
+  - family-names: Poiret
+  - given-names: Clément
+  - orcid: https://orcid.org/0000-0002-1571-2161
+    
+title: clementpoiret/ROILoc: Zenodo Release
+
+version: v0.2.4
+
+date-released: 2021-09-14
+
+Example: 
+
+``Clément POIRET. (2021). clementpoiret/ROILoc: Zenodo Release (v0.2.4). Zenodo. https://doi.org/10.5281/zenodo.5506959``
+
