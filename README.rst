@@ -25,7 +25,8 @@ CLI
 ***
 
 usage: roiloc [-h] -p PATH -i INPUTPATTERN [-r ROI [ROI ...]] -c CONTRAST [-b]
-              [-t TRANSFORM] [-m MARGIN [MARGIN ...]] [--mask MASK]
+              [-t TRANSFORM] [-m MARGIN [MARGIN ...]] [--rightoffset RIGHTOFFSET [RIGHTOFFSET ...]]
+              [--leftoffset LEFTOFFSET [LEFTOFFSET ...]] [--mask MASK]
               [--extracrops EXTRACROPS [EXTRACROPS ...]] [--savesteps]
 
 arguments::
@@ -52,6 +53,18 @@ arguments::
                         has to be a list of 3 integers, to control the margin
                         in the three axis (0: left/right margin, 1: post/ant
                         margin, 2: inf/sup margin). Default: [8,8,8]
+  --rightoffset RIGHTOFFSET [RIGHTOFFSET ...]
+                        Offset to add to the bounding box of the right ROI in
+                        voxels. It has to be a list of 3 integers, to control
+                        the offset in the three axis (0: from left to right,
+                        1: from post to ant, 2: from inf to sup).
+                        Default: [0,0,0]
+  --leftoffset LEFTOFFSET [LEFTOFFSET ...]
+                        Offset to add to the bounding box of the left ROI in
+                        voxels. It has to be a list of 3 integers, to control
+                        the offset in the three axis (0: from left to right,
+                        1: from post to ant, 2: from inf to sup).
+                        Default: [0,0,0]
   --mask MASK           Pattern for brain tissue mask to improve registration
                         (e.g.: `sub_*bet_mask.nii.gz`). If providing a BET
                         mask, please also pass `-b` to use a BET MNI template.

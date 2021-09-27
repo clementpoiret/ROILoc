@@ -7,12 +7,15 @@ from ants.core import ANTsImage
 from rich import print
 
 
-def get_coords(x: np.ndarray, margin: list = [8, 8, 8]) -> list:
-    """Get coordinates of a given ROI, and apply a margin.
+def get_coords(x: np.ndarray,
+               margin: list = [8, 8, 8],
+               offset: list = [0, 0, 0]) -> list:
+    """Get coordinates of a given ROI, and apply a margin with offset.
 
     Args:
         x (np.ndarray): ROI in binary format
         margin (list, optional): margin for xyz axes. Defaults to [8, 8, 8]
+        offset (list, optional): offset for xyz axes. Defaults to [0, 0, 0]
 
     Returns:
         list: Coordinates in xyzxyz format
@@ -21,9 +24,12 @@ def get_coords(x: np.ndarray, margin: list = [8, 8, 8]) -> list:
 
     mask = np.where(x != 0)
 
-    minx, maxx = int(np.min(mask[0])), int(np.max(mask[0]))
-    miny, maxy = int(np.min(mask[1])), int(np.max(mask[1]))
-    minz, maxz = int(np.min(mask[2])), int(np.max(mask[2]))
+    minx, maxx = int(np.min(mask[0])) + offset[0], int(np.max(
+        mask[0])) + offset[0]
+    miny, maxy = int(np.min(mask[1])) + offset[1], int(np.max(
+        mask[1])) + offset[1]
+    minz, maxz = int(np.min(mask[2])) + offset[2], int(np.max(
+        mask[2])) + offset[2]
 
     minx = (minx - margin[0]) if (minx - margin[0]) > 0 else 0
     miny = (miny - margin[1]) if (miny - margin[1]) > 0 else 0

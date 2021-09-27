@@ -18,7 +18,9 @@ class RoiLocator:
         bet (bool, optional): Use brain extracted MNI template. Defaults to False.
         transform_type (str, optional): Type of transformation for the registration.
                                         Defaults to "AffineFast".
-        margin (list, optional): Margin to apply. Defaults to [4, 4, 4].
+        margin (list, optional): Margin to apply. Defaults to [8, 8, 8].
+        rightoffset (list, optional): Offset to apply to the right hippocampus. Defaults to [0, 0, 0].
+        leftoffset (list, optional): Offset to apply to the left hippocampus. Defaults to [0, 0, 0].
         mask (Optional[ANTsImage], optional): Brain mask to improve registration quality.
                                               Defaults to None.
 
@@ -40,11 +42,15 @@ class RoiLocator:
                  roi: str,
                  bet: bool = False,
                  transform_type: str = "AffineFast",
-                 margin: list = [4, 4, 4],
+                 margin: list = [8, 8, 8],
+                 rightoffset: list = [0, 0, 0],
+                 leftoffset: list = [0, 0, 0],
                  mask: Optional[ANTsImage] = None):
 
         self.transform_type = transform_type
         self.margin = margin
+        self.rightoffset = rightoffset
+        self.leftoffset = leftoffset
         self.mask = mask
 
         self._roi_idx = get_roi_indices(roi)
@@ -90,7 +96,10 @@ class RoiLocator:
             region = get_roi(registered_atlas=registered_atlas,
                              idx=int(self._roi_idx[i]),
                              save=False)
-            coords = get_coords(region.numpy(), margin=self.margin)
+            offset = self.rightoffset if side == "right" else self.leftoffset
+            coords = get_coords(region.numpy(),
+                                margin=self.margin,
+                                offset=offset)
 
             self.coords[side] = coords
 

@@ -89,7 +89,10 @@ def main(args):
                     f"{image_stem}_{roi}_{side}_{args.transform}_mask.nii.gz",
                     save=args.savesteps)
 
-                coords = get_coords(region.numpy(), margin=args.margin)
+                offset = args.rightoffset if side == "right" else args.leftoffset
+                coords = get_coords(region.numpy(),
+                                    margin=args.margin,
+                                    offset=offset)
 
                 for file in files:
                     fstem = file.stem.split(".")[0]
@@ -166,6 +169,24 @@ def start():
         "Margin to add around the bounding box in voxels. It has to be a list of 3 integers, to control the margin in the three axis (0: left/right margin, 1: post/ant margin, 2: inf/sup margin). Default: [8,8,8]",
         required=False,
         default=[8, 8, 8])
+
+    parser.add_argument(
+        "--rightoffset",
+        nargs='+',
+        type=int,
+        help=
+        "Offset to add to the bounding box of the right ROI in voxels. It has to be a list of 3 integers, to control the offset in the three axis (0: voxels from left to right, 1: voxels from post to ant, 2: voxels from inf to sup). Default: [0,0,0]",
+        required=False,
+        default=[0, 0, 0])
+
+    parser.add_argument(
+        "--leftoffset",
+        nargs='+',
+        type=int,
+        help=
+        "Offset to add to the bounding box of the left ROI in voxels. It has to be a list of 3 integers, to control the offset in the three axis (0: voxels from left to right, 1: voxels from post to ant, 2: voxels from inf to sup). Default: [0,0,0]",
+        required=False,
+        default=[0, 0, 0])
 
     parser.add_argument(
         "--mask",
