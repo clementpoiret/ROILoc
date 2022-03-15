@@ -14,7 +14,7 @@ def handle_cache(func):
     def cache(*args, **kwargs):
         """Cache wrapper"""
 
-        cache_dir = tempfile.mkdtemp()
+        cache_dir = tempfile.mkdtemp() + "/"
         log.debug(f"Cache dir: {cache_dir}")
         kwargs["outprefix"] = cache_dir
 
