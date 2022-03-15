@@ -121,8 +121,7 @@ class RoiLocator:
             for side in ["right", "left"]
         ]
 
-    @handle_cache
-    def fit_transform(self, image: ANTsImage, outprefix: str = "") -> list:
+    def fit_transform(self, image: ANTsImage) -> list:
         """Fit the ROI to the image and transform.
 
         Args:
@@ -132,7 +131,7 @@ class RoiLocator:
         Returns:
             list: List of transformed images.
         """
-        self.fit(image, outprefix=outprefix)
+        self.fit(image)
         return self.transform(image)
 
     def inverse_transform(self,

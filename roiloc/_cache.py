@@ -1,5 +1,8 @@
+import logging
 import tempfile
 from shutil import rmtree
+
+log = logging.getLogger(__name__)
 
 
 def handle_cache(func):
@@ -9,10 +12,15 @@ def handle_cache(func):
     """
 
     def cache(*args, **kwargs):
-        tmp = tempfile.mkdtemp()
-        output = func(*args, outprefix=tmp, **kwargs)
-        rmtree(tmp, ignore_errors=True)
+        """Cache wrapper"""
 
-        return output
+        cache_dir = tempfile.mkdtemp()
+        log.debug(f"Cache dir: {cache_dir}")
+        kwargs["outprefix"] = cache_dir
+
+        try:
+            return func(*args, **kwargs)
+        finally:
+            rmtree(cache_dir)
 
     return cache
