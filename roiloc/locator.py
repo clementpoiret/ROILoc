@@ -126,7 +126,6 @@ class RoiLocator:
 
         Args:
             image (ANTsImage): Image to fit the ROI to.
-            outprefix (str, optional): Prefix for ANTs' temporary files.
 
         Returns:
             list: List of transformed images.
