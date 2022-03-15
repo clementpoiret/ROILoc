@@ -6,18 +6,23 @@ import numpy as np
 from ants.core.ants_image import ANTsImage
 from rich import print
 
+from ._cache import handle_cache
 
+
+@handle_cache
 def register(fixed: ANTsImage,
              moving: ANTsImage,
              type_of_transform: list,
+             outprefix: str = "",
              path: Optional[PosixPath] = None,
              mask: Optional[str] = None) -> dict:
     """Registration wrapper around ANTs
 
     Args:
-        fixed (ANTsImage): Image that stays in the native space
-        moving (ANTsImage): Image to move in native space
-        type_of_transform (list): See ANTs doc for registration type
+        fixed (ANTsImage): Image that stays in the native space.
+        moving (ANTsImage): Image to move in native space.
+        type_of_transform (list): See ANTs doc for registration type.
+        outprefix (str): Where to save ANTs tmporary files.
         path (Optional[PosixPath], optional): Path where to find masks. Defaults to None.
         mask (Optional[str], optional): Pattern to find masks. Defaults to None.
 
@@ -39,7 +44,8 @@ def register(fixed: ANTsImage,
     return ants.registration(fixed=fixed,
                              moving=moving,
                              type_of_transform=type_of_transform,
-                             mask=mask)
+                             mask=mask,
+                             outprefix=outprefix)
 
 
 def get_roi(registered_atlas: ANTsImage,

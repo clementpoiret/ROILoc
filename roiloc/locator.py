@@ -4,6 +4,7 @@ import ants
 import numpy as np
 from ants.core import ANTsImage
 
+from ._cache import handle_cache
 from .location import crop, get_coords
 from .registration import get_roi
 from .template import get_atlas, get_mni, get_roi_indices
@@ -70,18 +71,21 @@ class RoiLocator:
         """
         return self.coords
 
-    def fit(self, image: ANTsImage):
+    @handle_cache
+    def fit(self, image: ANTsImage, outprefix: str = ""):
         """Fit the ROI to the image and set coords.
 
         Args:
             image (ANTsImage): Image to fit the ROI to.
+            outprefix (str, optional): Prefix for ANTs' temporary files.
         """
         self._image = image
 
         registration = ants.registration(fixed=image,
                                          moving=self._mni,
                                          type_of_transform=self.transform_type,
-                                         mask=self.mask)
+                                         mask=self.mask,
+                                         outprefix=outprefix)
 
         self._fwdtransforms = registration["fwdtransforms"]
         self._invtransforms = registration["invtransforms"]
