@@ -1,8 +1,7 @@
 from pathlib import PosixPath
-from typing import Optional, Union
+from typing import Optional
 
 import ants
-import numpy as np
 from ants.core.ants_image import ANTsImage
 from rich import print
 
