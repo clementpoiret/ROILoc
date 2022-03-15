@@ -153,16 +153,3 @@ class RoiLocator:
             reference = self._image
 
         return ants.decrop_image(image, reference)
-
-
-def test():
-    image = ants.image_read(
-        "~/Datasets/MemoDev/ManualSegmentation/mb190108/tse.nii.gz",
-        reorient="LPI")
-    locator = RoiLocator(contrast="t2", roi="hippocampus", bet=True)
-
-    right, _ = locator.fit_transform(image)
-    print(locator.get_coords())
-    right_orig = locator.inverse_transform(right)
-
-    assert right_orig.shape == image.shape
