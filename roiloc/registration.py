@@ -5,10 +5,7 @@ import ants
 from ants.core.ants_image import ANTsImage
 from rich import print
 
-from ._cache import handle_cache
 
-
-@handle_cache
 def register(fixed: ANTsImage,
              moving: ANTsImage,
              type_of_transform: list,

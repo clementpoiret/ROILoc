@@ -4,7 +4,9 @@ Distributed under MIT License by Clément POIRET.
 """
 
 import argparse
+import tempfile
 from pathlib import Path
+from shutil import rmtree
 
 import ants
 from rich import print
@@ -23,6 +25,8 @@ def main(args):
         "For information purposes, you are currently running ROILoc with the following config:"
     )
     console.log(args)
+
+    cache_dir = tempfile.mkdtemp() + "/"
 
     path = Path(args.path).expanduser()
 
@@ -58,7 +62,8 @@ def main(args):
                                 mni,
                                 args.transform,
                                 path=image_path.parent,
-                                mask=args.mask)
+                                mask=args.mask,
+                                outprefix=cache_dir)
 
         registered_atlas = ants.apply_transforms(
             fixed=image,
@@ -102,6 +107,7 @@ def main(args):
                          f"{fstem}_{roi}_{side}_{args.transform}_crop.nii.gz",
                          log_coords=True)
 
+    rmtree(cache_dir)
     print("[bold green]Done! :)")
 
 
