@@ -1,6 +1,6 @@
 [project]
 name = "roiloc"
-version = "0.3.0"
+version = "0.4.0"
 description = "A simple package to center and crop T1w & T2w MRIs around a given region of interest by its name."
 license = {text = "MIT License"}
 readme = {file = "README.rst", content-type = "text/x-rst"}
