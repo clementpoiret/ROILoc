@@ -107,13 +107,43 @@ The API syntax retakes sklearn's API syntax, with a ``RoiLocator`` class, having
     ants.image_write(right_seg, "./sub00_hippocampus_right.nii.gz")
     ants.image_write(left_seg, "./sub00_hippocampus_left.nii.gz")
 
+Development Environment
+***********************
+
+ROILoc relies on Nix_ and Devenv_.
+
+.. _Nix: https://nixos.org/download/
+.. _Devenv: https://devenv.sh
+
+**Step 1**: Install Nix_:
+::
+
+    sh <(curl -L https://nixos.org/nix/install) --daemon
+
+**Step 2**: Install Devenv_:
+::
+
+    nix-env -iA devenv -f https://github.com/NixOS/nixpkgs/tarball/nixpkgs-unstable
+
+**Step 3**: 
+::
+
+    devenv shell
+
+That's it :)
+
+If you want something even easier, install direnv_ and
+allow it to automatically activate the current env (``direnv allow``).
+
+.. _direnv: https://direnv.net/
+
 
 Installation
 ************
 
 1/ Be sure to have a working ANTs installation: `see on GitHub <https://github.com/ANTsX/ANTs>`_,
 
-2/ Simply run ``pip install roiloc`` (at least python 3.7).
+2/ Simply run ``pip install roiloc`` (at least python 3.9).
 
 
 Example:
