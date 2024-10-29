@@ -16,8 +16,6 @@ It requires the following packages:
 
 - ANTs (Can be a system installation or anaconda installation),
 - ANTsPyX,
-- importlib_resources,
-- Pandas,
 - Rich.
 
 

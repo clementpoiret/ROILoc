@@ -156,3 +156,12 @@ poetry.lock
 # Ignore all local history of files
 .history
 .ionide
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

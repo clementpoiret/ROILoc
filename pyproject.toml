@@ -1,10 +1,12 @@
-[tool.poetry]
-name = "ROILoc"
-version = "0.2.9"
+[project]
+name = "roiloc"
+version = "0.3.0"
 description = "A simple package to center and crop T1w & T2w MRIs around a given region of interest by its name."
-license = "MIT"
-readme = "README.rst"
-authors = ["Clément POIRET <poiret.clement@outlook.fr>"]
+license = {text = "MIT License"}
+readme = {file = "README.rst", content-type = "text/x-rst"}
+authors = [
+    {name = "Clément POIRET", email = "poiret.clement@outlook.fr"}
+]
 keywords = ["mri", "brain", "t1w", "t2w", "registration"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -12,22 +14,24 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Topic :: Scientific/Engineering :: Image Processing"
 ]
-homepage = "https://hippomnesis.dev"
-repository = "https://github.com/clementpoiret/ROILoc"
+urls = {homepage = "https://hippomnesis.dev", repository = "https://github.com/clementpoiret/ROILoc"}
+requires-python = ">=3.9"
+dependencies = [
+    "antspyx>=0.5.0",
+    "pandas>=2.0.0",
+    "rich>=11.0.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.7"
-antspyx = ">=0.2.7"
-pandas = "^1.3.0"
-rich = "^11.0.0"
-importlib-resources = "^5.2.0"
+[dependency-groups]
+dev = [
+  "pytest"
+]
+lint = [
+  "ruff"
+]
 
-[tool.poetry.scripts]
-roiloc = 'roiloc.roiloc:start'
+[project.scripts]
+roiloc = "roiloc.roiloc:start"
 
-[tool.poetry.dev-dependencies]
-pytest = "^5.2"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.uv]
+package = true
